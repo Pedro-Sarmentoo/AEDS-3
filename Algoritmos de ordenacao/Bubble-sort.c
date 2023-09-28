@@ -1,5 +1,6 @@
 // Este algoritmo é por comparação e do grupo dos menos eficientes.
 // Bubble Sort
+// Coloca o maior no ultimo e vai diminuindo na bolha
 
 #include <stdio.h>
 
@@ -13,7 +14,7 @@ int main(){
     int maior=0,num,bolha = 6;
 
     for(int i = 0; i < bolha ; i++){
-        for(int t = 0; t < bolha ; t++){
+        for(int t = 1; t < bolha ; t++){
             if(vetor[i] < vetor[t]) maior = t;   
         }
         num = vetor[bolha];
