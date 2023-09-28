@@ -3,6 +3,10 @@
 
 #include <stdio.h>
 
+void print_vetor(int vetor[], int tam){
+    for(int x = 0; x < tam ; x++) printf("%d ",vetor[x]);
+}
+
 int main(){
 
     int vetor[10] = {5,1,8,2,6,9,3,7,4,10};
@@ -17,9 +21,8 @@ int main(){
                 vetor[t + 1] = aux;
             }
         }
-
-
     }
+    print_vetor(vetor,10);
 
     return 0;
 }
