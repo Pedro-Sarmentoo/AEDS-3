@@ -9,16 +9,16 @@ void print_vetor(int vetor[], int tam){
 int main(){
 
     int vetor[7] = {9,8,1,2,0,4,7};
-    int menor,aux;
+    int menor,num;
 
     for(int i = 0 ; i < 7 ; i++){
         menor = i;
         for(int t = i ; t < 7 - i ; t++){
             if (vetor[menor] > vetor[t]) menor = t;
         }
-        aux = vetor[menor];
+        num = vetor[menor];
         vetor[menor] = vetor[i];
-        vetor[i] = aux; 
+        vetor[i] = num; 
     }
     print_vetor(vetor,7);
     return 0;
