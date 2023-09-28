@@ -10,13 +10,12 @@ int main(){
 
     for(int i = 1 ; i < 10 ; i++ ){
         num = vetor[i];
-        for(int t = i -1 ; i >= 0; i--){
+        for(int t = i - 1 ; t >= 0 ; t--){
             if(num < vetor[t]){
                 aux = vetor[t];
                 vetor[t] = num;
-                vetor[i] = aux;
+                vetor[t + 1] = aux;
             }
-            else break;
         }
 
 
