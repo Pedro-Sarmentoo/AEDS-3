@@ -10,7 +10,7 @@ void print_vetor(int vetor[], int tam){
 int main(){
 
     int vetor[7] = {9,8,1,2,0,4,7};
-    int maior=0,num,bolha = 6;
+    int num,bolha = 6;
 
     for(int i = 0; i < 7 ; i++){
         for(int t = 0 ; t < bolha; t++){
