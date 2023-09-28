@@ -20,6 +20,6 @@ int main(){
         vetor[menor] = vetor[i];
         vetor[i] = aux; 
     }
-print_vetor(vetor,7);
+    print_vetor(vetor,7);
     return 0;
 }
