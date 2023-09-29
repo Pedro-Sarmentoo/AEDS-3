@@ -1,5 +1,6 @@
 // Este algoritmo é por comparação e do grupo dos menos eficientes.
 // Bubble Sort
+// Esse algoritmo precisa pega o primeiro vetor e colocar ele no ultimo e no decorrer a bolha vai diminuindo.
 
 #include <stdio.h>
 
