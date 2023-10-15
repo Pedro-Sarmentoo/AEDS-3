@@ -9,10 +9,10 @@ void print_vetor(int vetor[], int tam){
 
 int main(){
 
-    int vetor[10] = {5,1,8,2,6,9,3,7,4,10};
+    int vetor[2] = {5,1};
     int num,aux;
 
-    for(int i = 1 ; i < 10 ; i++ ){
+    for(int i = 1 ; i < 2 ; i++ ){
         num = vetor[i];
         for(int t = i - 1 ; t >= 0 ; t--){
             if(num < vetor[t]){
@@ -22,7 +22,7 @@ int main(){
             }
         }
     }
-    print_vetor(vetor,10);
+    print_vetor(vetor,2);
 
     return 0;
 }
