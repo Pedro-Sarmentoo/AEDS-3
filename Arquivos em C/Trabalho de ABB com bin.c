@@ -76,7 +76,7 @@ int main(void) {
       fwrite(&temp,1,sizeof(Dados),p); //Escreve no arquivo o dado que está em temp
     }
     // o ultimo temp entra aqui
-    if (temp.dado != 0){
+    if (temp.dado != 0){ // AQUI NÃO TINHA QUE SER TEMP!!!!
       printf("tem dados\n");
       
       for(int c = 1;c < (sizeof(arq)/sizeof(int)); c++){
@@ -85,8 +85,8 @@ int main(void) {
         fseek(p,0,SEEK_SET);//volta o ponteiro do arquivo para o inicio
         fread(&antes,1,sizeof(Dados),p);
         
-       if(antes.dado > temp.dado){// Inserir na direita se não tiver nada
-         if(antes.esq == -1){
+       if(antes.dado > temp.dado){
+         if(antes.esq == -1){ // Inserir na esquerda se não tiver nada
             antes.esq = c;// coloca a posição no bloco
             fwrite(&antes,1,sizeof(Dados),p);// atualiza o dado com a nova posição
             fseek(p,c*sizeof(Dados),SEEK_SET);// volta o ponteiro do arquivo para a posição antiga
@@ -98,10 +98,12 @@ int main(void) {
            fseek(p,c*sizeof(Dados),SEEK_SET);
          }
         }
-        else if (antes.dado < temp.dado && antes.dir == -1){ // Inserir na esquerda se não tiver nada
-          antes.dir = c;
-          fwrite(&antes,1,sizeof(Dados),p);
-          fseek(p,c*sizeof(Dados),SEEK_SET);// volta o ponteiro do arquivo para a posição antiga
+        else if (antes.dado < temp.dado){ // Inserir na direita se não tiver nada
+          if(antes.dir == -1){
+            antes.dir = c;
+            fwrite(&antes,1,sizeof(Dados),p);
+            fseek(p,c*sizeof(Dados),SEEK_SET);// volta o ponteiro do arquivo para a posição antiga
+          }
         }
         
         fwrite(&temp,1,sizeof(Dados),p);
