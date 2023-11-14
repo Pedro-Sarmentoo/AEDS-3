@@ -1,4 +1,4 @@
-// 10 7 13 3 5 4 1 11 12 15
+//10 7 13 3 5 4 1 11 12 15
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,29 +22,36 @@ void ler_arquivo(FILE *p,Dados x,int tam){
     }
 }
 
-void inserir(FILE *p,Dados temp,int arq[],int tam,int c){
-  if(tam == 0) return;
-  
-  fopen("teste2.bin","ab");
-    if (!p){
-      printf("Arquivo não encontrado\n");
-      return;
+void move_mais_dir(FILE *p,Dados temp,Dados antes,int arq[],int c){
+  if(antes.dir == -1) return;
+
+  else{
+    if(antes.dado < temp.dado){
+      fseek(p,antes.dir*sizeof(Dados),SEEK_SET);
+      fread(&antes,1,sizeof(Dados),p);
+      move_mais_dir(p,temp,antes,arq,c);
     }
-    else{
-      fread(&temp,1,sizeof(Dados),p); //Lê o arquivo para ver se tem coisa
-      if( temp.dado == 0){
-        printf("não tem nenhum dado\n");
-        temp.dado = arq[0]; temp.esq = temp.dir = 5;
-        fwrite(&temp,1,sizeof(Dados),p);
-        inserir(p,temp,arq,tam-1,c+1);
-      }
-      else{
-        printf("tem dados\n");
-        temp.dado = arq[c]; temp.esq = temp.dir = -1;
-        fwrite(&temp,1,sizeof(Dados),p);
-        inserir(p,temp,arq,tam,(c+1));
-      }
+  }
+}
+
+void move_mais_esq(FILE *p,Dados temp,Dados antes,int arq[],int c){
+  if(antes.dado > temp.dado && antes.esq == -1){ // problemas aqui, e se o numero for para a direita?????
+    return;
+  }
+  else if(antes.dado < temp.dado && antes.dir == -1){
+    return;
+  }
+
+  else{
+    if(antes.dado > temp.dado){
+      fseek(p,antes.esq*sizeof(Dados),SEEK_SET);
+      fread(&antes,1,sizeof(Dados),p);
+      move_mais_esq(p,temp,antes,arq,c);
     }
+    else if(antes.dado < temp.dado){
+      
+    }
+  }
 }
 
 int main(void) {
@@ -68,33 +75,24 @@ int main(void) {
       temp.dado = arq[0]; temp.esq = temp.dir = -1; //Primeiro Dado
       fwrite(&temp,1,sizeof(Dados),p); //Escreve no arquivo o dado que está em temp
     }
-  // o ultimo temp entra aqui
+    // o ultimo temp entra aqui
     if (temp.dado != 0){
       printf("tem dados\n");
+      
       for(int c = 1;c < (sizeof(arq)/sizeof(int)); c++){
         temp.dado = arq[c]; temp.dir = temp.esq = -1;
         
-        fseek(p,0,SEEK_SET); //volta o ponteiro do arquivo para o inicio
+        fseek(p,0,SEEK_SET);//volta o ponteiro do arquivo para o inicio
         fread(&antes,1,sizeof(Dados),p);
         
-       if(antes.dado > temp.dado){ // Inserir na direita se não tiver nada
+       if(antes.dado > temp.dado){// Inserir na direita se não tiver nada
          if(antes.esq == -1){
             antes.esq = c;// coloca a posição no bloco
-            fwrite(&antes,1,sizeof(Dados),p); // atualiza o dado com a nova posição
+            fwrite(&antes,1,sizeof(Dados),p);// atualiza o dado com a nova posição
             fseek(p,c*sizeof(Dados),SEEK_SET);// volta o ponteiro do arquivo para a posição antiga
          }
          else{ // caso o bloco já esteja cheio
-           fseek(p,antes.esq*sizeof(Dados),SEEK_SET); //muda o ponteiro do dado para o bloco da antes.esq
-           fread(&antes,1,sizeof(Dados),p); //atualiza a variavel antes
-           if(antes.dado > temp.dado){
-
-            //FAZER UMA FUNÇÃO PARA DESLOCAR PELA ARVORE
-
-
-
-
-             
-           }
+           move_mais_esq(p,temp,antes,arq,c); //FUNÇÃO PARA DESLOCAR PELA ARVORE
            antes.esq = c;
            fwrite(&antes,1,sizeof(Dados),p);
            fseek(p,c*sizeof(Dados),SEEK_SET);
@@ -108,6 +106,7 @@ int main(void) {
         
         fwrite(&temp,1,sizeof(Dados),p);
       }
+      
       //Comandos para mostrar o primeiro e ultimo dado
       /*fseek(p,0,SEEK_SET);
       fread(&antes,1,sizeof(Dados),p);
@@ -120,9 +119,9 @@ int main(void) {
         fread(&antes,1,sizeof(Dados),p);
         printf("Os dados de antes são : %d %d %d\n",antes.esq,antes.dado,antes.dir);
       }*/
+      
     }
     ler_arquivo(p,x,(sizeof(arq)/sizeof(int) )); //Mostrar todos os dados do arquivo
-
   
   //fseek(p,2*sizeof(Dados),SEEK_SET); --> comando para andar pelo dados
   //printf("%ld\n",(ftell(p)/sizeof(Dados)) );
